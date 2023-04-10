@@ -4,8 +4,15 @@ import { FetchRequest } from "@rails/request.js"
 
 export default class WebAuthnController extends Controller {
   static targets = [ "error", "button", "supportText" ]
-  static values = { challengeUrl: String, verificationUrl: String, fallbackUrl: String }
   static classes = [ "loading" ]
+  static values = {
+    challengeUrl: String,
+    verificationUrl: String,
+    fallbackUrl: String,
+    retryText: { type: String, default: "Retry" },
+    notAllowedText: { type: String, default: "That didn't work. Either it was cancelled or took too long. Please try again." },
+    invalidStateText: { type: String, default: "We couldn't add that security key. Please confirm you haven't already registered it, then try again." }
+  }
 
   connect() {
     if (!supported()) {
@@ -65,9 +72,9 @@ export default class WebAuthnController extends Controller {
 
   onError(error) {
     if (error.code === 0 && error.name === "NotAllowedError") {
-      this.errorTarget.textContent = "That didn't work. Either it was cancelled or took too long. Please try again."
+      this.errorTarget.textContent = this.notAllowedTextValue
     } else if (error.code === 11 && error.name === "InvalidStateError") {
-      this.errorTarget.textContent = "We couldn't add that security key. Please confirm you haven't already registered it, then try again."
+      this.errorTarget.textContent = this.invalidStateTextValue
     } else {
       this.errorTarget.textContent = error.message
     }
@@ -81,7 +88,7 @@ export default class WebAuthnController extends Controller {
   showError() {
     if (this.hasErrorTarget) {
       this.errorTarget.hidden = false
-      this.buttonTarget.textContent = "Retry"
+      this.buttonTarget.textContent = this.retryTextValue
       this.enableForm()
     }
   }
