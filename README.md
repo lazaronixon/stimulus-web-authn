@@ -31,11 +31,11 @@ application.register("web-authn", WebAuthnController)
   data-web-authn-verification-url-value="https://myapp.com/two_factor_authentication/challenge/web_authn"
   data-web-authn-fallback-url-value="/two_factor_authentication/challenge">
 
-  <p data-web-authn-target="error" />
-
-  <button type="button" data-web-authn-target="button" data-action="web-authn#getCredential">
+  <button name="button" type="button" data-web-authn-target="button" data-action="web-authn#getCredential">
     Use security key
   </button>
+
+  <p data-web-authn-target="error" hidden></p>
 </div>
 ```
 
