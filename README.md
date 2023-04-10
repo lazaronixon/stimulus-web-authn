@@ -1,12 +1,43 @@
 # Stimulus Web Authn
 
-## Getting started
+A Stimulus controller to implement web authn client side.
 
-A Stimulus controller for web authn.
+## Installation
 
-## 📚 Documentation
+```shell
+$ yarn add stimulus-web-authn
+```
 
-- TBD
+## Usage
+
+Register the controller with Stimulus:
+
+```javascript
+// application.js
+import { Application } from "@hotwired/stimulus"
+import WebAuthnController from "stimulus-web-authn"
+
+const application = Application.start()
+application.register("web-authn", WebAuthnController)
+```
+
+## Basic Example
+
+```html
+<div
+  data-controller="web-authn"
+  data-web-authn-loading-class="web-authn-loading"
+  data-web-authn-challenge-url-value="https://myapp.com/two_factor_authentication/challenge/web_authn/new"
+  data-web-authn-verification-url-value="https://myapp.com/two_factor_authentication/challenge/web_authn"
+  data-web-authn-fallback-url-value="/two_factor_authentication/challenge">
+
+  <p data-web-authn-target="error" />
+
+  <button type="button" data-web-authn-target="button" data-action="web-authn#getCredential">
+    Use security key
+  </button>
+</div>
+```
 
 ## 👷‍♂️ Contributing
 
